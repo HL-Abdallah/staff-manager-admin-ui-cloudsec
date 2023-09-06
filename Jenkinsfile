@@ -6,14 +6,14 @@ pipeline {
                 echo 'Checkout'
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Test'
-            }
-        }
         stage('Build') {
             steps {
                 echo 'Build'
+            }
+        }
+        stage {
+            steps {
+                echo "workspace is : $WORKSPACE"
             }
         }
     }

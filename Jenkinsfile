@@ -11,7 +11,7 @@ pipeline {
                 echo 'Build'
             }
         }
-        stage(name: 'Push to Docker-Registry') {
+        stage('Push to Docker-Registry') {
             steps {
                 echo "workspace is : $WORKSPACE"
             }

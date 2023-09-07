@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     sh "npm ls"
-                    sh "npm ci"
+                    sh "npm install"
                     sh "npm run build"
                 }
             }

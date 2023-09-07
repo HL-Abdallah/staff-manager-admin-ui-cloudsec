@@ -24,16 +24,9 @@ pipeline {
         stage('Build React App') {
             steps {
                 script {
-                    sh "ls"
-                    sh "npm install"
+                    sh "npm ci"
                     sh "npm run build"
-                    sh "ls"
                 }
-            }
-        }
-        stage('Run Test') {
-            steps {
-                echo 'No tests setup yet ...'
             }
         }
         stage("Build Docker Image") {

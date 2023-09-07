@@ -5,6 +5,10 @@ pipeline {
         skipDefaultCheckout()
     }
 
+    tools {
+        nodejs "20"
+    }
+
     environment {
         TAG="$env.BRANCH_NAME-v$BUILD_NUMBER"
         REGISTRY="266096842478.dkr.ecr.eu-north-1.amazonaws.com/cloudsec"

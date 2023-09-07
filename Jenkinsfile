@@ -6,7 +6,7 @@ node {
     def AWS_REGION = "eu-north-1"
 
     stage('Build React App') {
-        sh "npm install"
+        sh "npm ci"
         sh "npm run build"
     }
 

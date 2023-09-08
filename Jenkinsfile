@@ -1,10 +1,9 @@
 pipeline {
 
     agent {
-        // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
+        // Equivalent to "docker build -f Dockerfile.build
         dockerfile {
             filename 'Dockerfile.agent'
-            label 'agent-docker-01'
         }
     }
 
@@ -38,7 +37,6 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'aws-key', variable: 'awsKey'), string(credentialsId: 'aws-secret', variable: 'awsSecret')]) {
                         withEnv(["AWS_ACCESS_KEY_ID=$awsKey", "AWS_SECRET_ACCESS_KEY=$awsSecret", "AWS_DEFAULT_REGION=$AWS_REGION"]) {
-                            sh "aws configure list"
                             sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY"
                             sh "docker tag staff-manager-admin-ui $REGISTRY:$TAG"
                             sh "docker push $REGISTRY:$TAG"

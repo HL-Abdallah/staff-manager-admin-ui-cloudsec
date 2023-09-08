@@ -1,0 +1,10 @@
+FROM jenkins/agent:latest
+
+USER root
+
+# Install Node.js and npm
+RUN apt-get update && \
+    apt-get install -y nodejs npm docker awscli default-jdk python3 python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
+USER jenkins

@@ -1,26 +1,51 @@
-node {
-    checkout scm
+pipeline {
 
-    def TAG = env.BRANCH_NAME + "-v" + env.BUILD_NUMBER
-    def REGISTRY = "266096842478.dkr.ecr.eu-north-1.amazonaws.com/cloudsec"
-    def AWS_REGION = "eu-north-1"
-
-    stage('Build React App') {
-        sh "npm ci"
-        sh "npm run build"
+    agent {
+        // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
+        dockerfile {
+            filename 'Dockerfile.agent'
+            label 'agent-docker-01'
+        }
     }
 
-    stage("Build Docker Image") {
-        sh "docker build -t staff-manager-admin-ui  ."
+    environment {
+        TAG="$env.BRANCH_NAME-v$BUILD_NUMBER"
+        REGISTRY="266096842478.dkr.ecr.eu-north-1.amazonaws.com/cloudsec"
+        AWS_REGION="eu-north-1"
     }
 
-    stage('Push to Registry') {
-        withCredentials([string(credentialsId: 'aws-key', variable: 'awsKey'), string(credentialsId: 'aws-secret', variable: 'awsSecret')]) {
-            withEnv(["AWS_ACCESS_KEY_ID=$awsKey", "AWS_SECRET_ACCESS_KEY=$awsSecret", "AWS_DEFAULT_REGION=$AWS_REGION"]) {
-                sh "aws configure list"
-                sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY"
-                sh "docker tag staff-manager-admin-ui $REGISTRY:$TAG"
-                sh "docker push $REGISTRY:$TAG"
+    stages {
+        stage('Checkout'){
+            steps{
+                checkout scmGit(branches: [[name: env.BRANCH_NAME ]], extensions: [], userRemoteConfigs: [[credentialsId: 'github-access', url: 'https://github.com/HL-Abdallah/staff-manager-admin-ui-cloudsec.git']])
+            }
+        }
+        stage('Build React App') {
+            steps {
+                script {
+                    sh "npm install"
+                    sh "npm run build"
+                }
+            }
+        }
+        stage("Build Docker Image") {
+            steps {
+                sh "docker build -t staff-manager-admin-ui  ."
+            }
+        }
+        stage('Push to Registry') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'aws-key', variable: 'awsKey'), string(credentialsId: 'aws-secret', variable: 'awsSecret')]) {
+                        withEnv(["AWS_ACCESS_KEY_ID=$awsKey", "AWS_SECRET_ACCESS_KEY=$awsSecret", "AWS_DEFAULT_REGION=$AWS_REGION"]) {
+                            sh "aws configure list"
+                            sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY"
+                            sh "docker tag staff-manager-admin-ui $REGISTRY:$TAG"
+                            sh "docker push $REGISTRY:$TAG"
+                        }
+                    }
+                }
+                
             }
         }
     }

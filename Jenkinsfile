@@ -1,7 +1,7 @@
 pipeline {
 
     agent {
-        // Equivalent to "docker build -f Dockerfile.build
+        // Equivalent to "docker build -f Dockerfile.build"
         dockerfile {
             filename 'Dockerfile.agent'
         }

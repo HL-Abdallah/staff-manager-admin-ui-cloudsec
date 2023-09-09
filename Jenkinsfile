@@ -17,7 +17,7 @@ pipeline {
         stage('Build React App') {
             steps {
                 script {
-                    sh "npm ci"
+                    sh "npm install"
                     sh "npm run build"
                 }
             }

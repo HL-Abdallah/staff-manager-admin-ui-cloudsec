@@ -4,27 +4,31 @@ USER root
 
 # Install stuff needed for 
 RUN apt-get update && \
-    apt-get install -y docker awscli default-jdk && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y docker awscli default-jdk
 
-# install npm & node
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
-    && . ~/.nvm/nvm.sh \
-    && nvm install node \
-    && node -e "console.log('Running Node.js ' + process.version)"
+# # install npm & node
+# RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
+#     && . ~/.nvm/nvm.sh \
+#     && nvm install node \
+#     && node -e "console.log('Running Node.js ' + process.version)"
 
-# Add nvm path to bashrc and source it
-RUN echo 'export NVM_DIR="$HOME/.nvm"' >> $HOME/.bashrc \
-    && echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $HOME/.bashrc
+# # Add nvm path to bashrc and source it
+# RUN echo 'export NVM_DIR="$HOME/.nvm"' >> $HOME/.bashrc \
+#     && echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $HOME/.bashrc
 
-# Source bashrc to make nvm available in this shell
-RUN . $HOME/.bashrc
+# # Source bashrc to make nvm available in this shell
+# RUN . $HOME/.bashrc
 
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    npm
+RUN npm install npm@latest -g && \
+    npm install n -g && \
+    n latest
 
 # Add the commands to fix npm permissions
-RUN mkdir -p /.npm
-RUN chown -R 1002:1002 /.npm
+# RUN mkdir -p /.npm
+# RUN chown -R 1002:1002 /.npm
+# USER 1002:1002
 
-
-# USER jenkins
-USER 1002:1002
+USER jenkins

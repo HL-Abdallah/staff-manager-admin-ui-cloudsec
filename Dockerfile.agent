@@ -4,7 +4,7 @@ USER root
 
 # Install stuff needed for 
 RUN apt-get update && \
-    apt-get install -y docker awscli default-jdk && \
+    apt-get install -y npm docker awscli default-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 # install npm & node
@@ -20,9 +20,10 @@ RUN echo 'export NVM_DIR="$HOME/.nvm"' >> $HOME/.bashrc \
 # Source bashrc to make nvm available in this shell
 RUN . $HOME/.bashrc
 
-# # Add the commands to fix npm permissions
-# RUN mkdir -p /.npm
-# RUN chown -R 1002:1002 /.npm
+
+# Add the commands to fix npm permissions
+RUN mkdir -p /.npm
+RUN chown -R 1002:1002 /.npm
 
 
 # USER jenkins

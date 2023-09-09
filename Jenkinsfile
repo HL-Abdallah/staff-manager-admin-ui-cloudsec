@@ -14,11 +14,6 @@ pipeline {
     }
 
     stages {
-        // stage('Checkout'){
-        //     steps{
-        //         checkout scmGit(branches: [[name: env.BRANCH_NAME ]], extensions: [], userRemoteConfigs: [[credentialsId: 'github-access', url: 'https://github.com/HL-Abdallah/staff-manager-admin-ui-cloudsec.git']])
-        //     }
-        // }
         stage('Build React App') {
             steps {
                 script {

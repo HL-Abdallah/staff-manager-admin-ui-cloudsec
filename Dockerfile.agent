@@ -4,7 +4,7 @@ USER root
 
 # Install stuff needed for 
 RUN apt-get update && \
-    apt-get install -y npm docker awscli default-jdk && \
+    apt-get install -y docker awscli default-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 # install npm & node

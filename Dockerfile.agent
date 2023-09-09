@@ -2,9 +2,14 @@ FROM jenkins/agent:latest
 
 USER root
 
-# Install Node.js and npm
+# Install stuff needed for 
 RUN apt-get update && \
     apt-get install -y nodejs npm docker awscli default-jdk && \
     rm -rf /var/lib/apt/lists/*
 
+# Add the commands to fix npm permissions
+RUN mkdir -p /.npm
+RUN chown -R 1002:1002 /.npm
+
 # USER jenkins
+USER 1002:1002

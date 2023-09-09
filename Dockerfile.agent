@@ -1,6 +1,6 @@
 FROM jenkins/agent:latest
 
-USER jenkins
+USER root
 
 # Install stuff needed for 
 RUN apt-get update && \
@@ -27,6 +27,7 @@ RUN npm install npm@latest -g && \
     n latest
 
 # Add the commands to fix npm permissions
-# RUN mkdir -p /.npm
-# RUN chown -R 1002:1002 /.npm
-# USER 1002:1002
+RUN mkdir -p /.npm
+RUN chown -R 1002:1002 /.npm
+USER 1002:1002
+

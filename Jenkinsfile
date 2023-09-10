@@ -1,16 +1,10 @@
 pipeline {
 
     agent {
-        // Equivalent to "docker build -f Dockerfile.build"
         dockerfile {
             filename 'Dockerfile.agent'
         }
     }
-
-    // options {
-    //     // This is required if you want to clean before build
-    //     skipDefaultCheckout(true)
-    // }
     
     environment {
         TAG="$env.BRANCH_NAME-v$BUILD_NUMBER"
@@ -19,19 +13,10 @@ pipeline {
     }
 
     stages {
-        // stage('Checkout from Github') {
-        //     steps {
-        //         script {
-        //             cleanWs()
-        //             checkout scmGit(branches: [[name: '${BRANCH_NAME}']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-access', url: 'https://github.com/HL-Abdallah/staff-manager-admin-ui-cloudsec.git']])
-        //             echo "Building ${env.JOB_NAME} with tag ${TAG} ..."
-        //         }
-        //     }
-        // }
         stage('Install dependencies') {
             steps {
                 script {
-                    sh "npm install --legacy-peer-deps"
+                    sh "npm install"
                 }
             }
         }

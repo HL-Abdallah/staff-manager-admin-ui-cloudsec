@@ -16,5 +16,8 @@ RUN npm install npm@latest -g && \
 # Add the commands to fix npm permissions
 RUN mkdir -p /.npm
 RUN chown -R 1002:1002 /.npm
+# fix docker permissions
+RUN usermod -aG docker 1002
+
 USER 1002:1002
 

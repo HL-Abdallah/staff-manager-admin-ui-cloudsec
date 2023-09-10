@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     cleanWs()
-                    checkout scmGit(branches: [[name: '${BRANCH_NAME}']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-access', url: 'https://github.com/HL-Abdallah/staff-manager-admin-ui-cloudsec.git']])
+                    checkout scm
                     echo "Building ${env.JOB_NAME} with tag ${TAG} ..."
                 }
             }
@@ -31,7 +31,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 script {
-                    sh "npm install"
+                    sh "npm install --legacy-peer-deps"
                 }
             }
         }

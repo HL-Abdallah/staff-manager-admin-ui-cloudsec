@@ -3,10 +3,10 @@ pipeline {
     agent { label 'gp-agent' }
     
     environment {
-        TAG="$env.BRANCH_NAME-v$BUILD_NUMBER"
-        REGISTRY="266096842478.dkr.ecr.eu-north-1.amazonaws.com/cloudsec"
+        TAG="$env.BRANCH_NAME"
+        REGISTRY="266096842478.dkr.ecr.eu-north-1.amazonaws.com/staff-manager-admin-ui"        
         AWS_REGION="eu-north-1"
-        TAGGED="$REGISTRY/staff-manager-admin-ui:$TAG"
+        TAGGED="$REGISTRY:$TAG"
     }
 
     stages {
@@ -33,7 +33,6 @@ pipeline {
             steps {
                 script {
                     withEnv(["AWS_DEFAULT_REGION=$AWS_REGION"]) {
-                        sh "aws configure list"
                         sh "aws ecr get-login-password | docker login --username AWS --password-stdin $REGISTRY"
                         sh "docker tag staff-manager-admin-ui $TAGGED"
                         if (env.BRANCH_NAME == 'production') {
@@ -44,12 +43,12 @@ pipeline {
                                 submitter: 'admin'
                             )
                             if (deployInput == 'Yes') {
-                                sh "docker push $REGISTRY"
+                                sh "docker push $TAGGED"
                             } else {
                                 echo "Image push skipped by user."
                             }
                         } else {
-                            sh "docker push $REGISTRY"
+                            sh "docker push $TAGGED"
                         }
                     }
                 }

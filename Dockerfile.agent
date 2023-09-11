@@ -18,8 +18,8 @@ RUN npm install npm@latest -g && \
 RUN curl -fsSL https://get.docker.com | sh
 
 # Add the commands to fix npm permissions
-RUN mkdir -p /.npm
-RUN chown -R jenkins /.npm
+RUN mkdir -p /home/jenkins/.npm
+RUN chown -R jenkins /home/jenkins/.npm
 # fix docker permissions
 RUN usermod -aG docker jenkins
 

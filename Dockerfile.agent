@@ -21,8 +21,8 @@ RUN curl -fsSL https://get.docker.com | sh
 RUN mkdir -p /.npm
 RUN chown -R 1002:1002 /.npm
 # fix docker permissions
-RUN groupadd docker 
 RUN usermod -aG docker 1002
+RUN chmod 666 /var/run/docker.sock
 
 USER 1002:1002
 

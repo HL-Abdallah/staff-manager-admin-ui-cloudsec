@@ -6,7 +6,7 @@ pipeline {
         TAG="$env.BRANCH_NAME-v$BUILD_NUMBER"
         REGISTRY="266096842478.dkr.ecr.eu-north-1.amazonaws.com/cloudsec"
         AWS_REGION="eu-north-1"
-        TAGGED="$REGISTRY/staff-manager-admin-ui:$TAG"
+        TAGGED="$REGISTRY:staff-manager-admin-ui:$TAG"
     }
 
     stages {

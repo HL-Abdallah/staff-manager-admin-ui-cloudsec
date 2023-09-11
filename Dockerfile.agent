@@ -22,6 +22,6 @@ RUN mkdir -p /home/jenkins/.npm
 RUN chown -R jenkins /home/jenkins/.npm
 # fix docker permissions
 RUN usermod -aG docker jenkins
+RUN reboot
 
 USER jenkins
-

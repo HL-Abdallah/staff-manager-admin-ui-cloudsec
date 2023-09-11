@@ -51,7 +51,6 @@ pipeline {
                         } else {
                             sh "docker push $TAGGED"
                         }
-                        // sh "docker push $TAGGED"
                     }
                 }
             }
